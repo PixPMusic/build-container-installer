@@ -1,5 +1,5 @@
 $(IMAGE_NAME)-$(IMAGE_TAG):
-	skopeo copy $(if $(IMAGE_SRC),$(IMAGE_SRC),docker://$(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_TAG)) oci:$(IMAGE_NAME)-$(IMAGE_TAG)
+	skopeo copy $(if $(IMAGE_SRC_AUTH),--src-creds $(IMAGE_SRC_AUTH) ,)$(if $(IMAGE_SRC),$(IMAGE_SRC),docker://$(IMAGE_REPO)/$(IMAGE_NAME):$(IMAGE_TAG)) oci:$(IMAGE_NAME)-$(IMAGE_TAG)
 
 install-deps:
 	$(install_pkg) skopeo

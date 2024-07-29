@@ -7,6 +7,7 @@ export EXTRA_BOOT_PARAMS       :=
 export IMAGE_NAME              := base
 export IMAGE_REPO              := quay.io/fedora-ostree-desktops
 export IMAGE_SRC               :=
+export IMAGE_SRC_AUTH          :=
 export IMAGE_TAG                = $(VERSION)
 export IMAGE_SIGNED            := true
        REPOS                   := $(subst :,\:,$(wildcard /etc/yum.repos.d/*.repo))

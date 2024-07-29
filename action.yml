@@ -16,11 +16,11 @@ inputs:
   dnf_cache_key:
     description: Overrides the dnf cache key
     required: false
-  enable_cache_dnf: 
+  enable_cache_dnf:
     description: Whether to enable caching for dnf
     required: false
     default: "true"
-  enable_cache_skopeo: 
+  enable_cache_skopeo:
     description: Whether to enable caching for skopeo
     required: false
     default: "false"
@@ -65,6 +65,9 @@ inputs:
     default: "true"
   image_src:
     description: Overrides the source of the container image. Must be formatted for the skopeo copy command
+    required: false
+  image_src_creds:
+    description: Credentials for skopeo copy --src-creds
     required: false
   image_tag:
     description: Tag of the source container image
@@ -162,6 +165,7 @@ runs:
           IMAGE_NAME="${{ inputs.image_name }}" \
           IMAGE_REPO="${{ inputs.image_repo }}" \
           IMAGE_SRC="${{ inputs.image_src }}" \
+          IMAGE_SRC_CREDS="${{ inputs.image_src_creds }}" \
           IMAGE_TAG="${{ inputs.image_tag || inputs.version }}"
 
     - name: Run docker image
@@ -184,7 +188,7 @@ runs:
           fi
         else
            tag="${ACTION_REF}"
-        fi        
+        fi
         if [[ "${{ inputs.enable_cache_dnf }}" == "true" ]]
         then
           cache="${cache} -v /cache/dnf:/cache/dnf"
@@ -219,6 +223,7 @@ runs:
           IMAGE_REPO="${{ inputs.image_repo }}" \
           IMAGE_SIGNED="${{ inputs.image_signed }}" \
           IMAGE_SRC="${{ inputs.image_src }}" \
+          IMAGE_SRC_CREDS="${{ inputs.image_src_creds }}" \
           IMAGE_TAG="${{ inputs.image_tag || inputs.version }}" \
           ISO_NAME=/github/workspace/${{ inputs.iso_name }} \
           ${{ inputs.repos && format('REPOS="{0}"', inputs.repos) || '' }} \
